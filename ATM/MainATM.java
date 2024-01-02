@@ -1,31 +1,37 @@
 package ATM;
 
+import java.util.ArrayList;
+
 public class MainATM {
-    public static void main(String [] args){
-      //  User user = new User("Marinel", "Dorel", "RO12312442122222", 1234,132132);
-        //User.addUser(user);
-        /*
-        User getUser = User.getUserDataByIban("RO123456789123456789");
-        if(getUser != null){
-            User.removeUser(getUser);
-        } else {
-            System.out.println("User not found");
-        }
-         */
-        User u = User.getUserDataByIban("RO12312442122222");
-        int money = 500;
-        //User.addBalance(u, money);
-        User u1 = User.getUserDataByIban("RO123124421");
+    /**
+     * This method is used to block a card
+     * @param user
+     */
+    public static void blockCard(User user){
+        user.setCard_blocked(true);
+    }
 
-        int quantity = 4000;
-        User.addBalance(u1,quantity);
-        User.withdrawBalance(u1,money);
-
-        //int new_pin1 = 2123;
-        //User.changePIN(u,new_pin1);
-
-       // int quantity = 100;
-        //User.transferBetweenUsers(u1,u,quantity);
-
+    /**
+     * This method is used to unblock a card
+     * @param user
+     */
+    public static void unblockCard(User user){
+        user.setCard_blocked(false);
+    }
+    public static void main(String[] args) {
+        MoneyCheckATM ATM = new MoneyCheckATM();
+        ArrayList <User> users = new ArrayList<>();
+        Admin admin = new Admin("Robert-Ioan", "Ilea", "admin@atm.ro", FunctionType.Admin);
+        User user1 = new User("Marinel", "Dorel", "RO1231244212332222112", 1234, 13213332,FunctionType.User);
+        User user2 = new User("Dorel", "Andrei", "RO1233121111332121", 3212, 3333333,FunctionType.User);
+        users.add(user1);
+        users.add(user2);
+        ATM.setAtm_name("MoneyCheck");
+        ATM.setAdmin(admin);
+        ATM.setUsers(users);
+        //MoneyCheckATM.addAtmToDatabase(ATM);
+        //MoneyCheckATM.removeAtmFromDatabase(ATM);
+        //Admin.addMoneyToATM(ATM,2500.20);
+        User.withdrawBalance(user1,5000, ATM);
     }
 }
