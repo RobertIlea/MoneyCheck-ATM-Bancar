@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ebf72962-af7d-4470-9528-7becbea80bbb" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/ATM/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/ATM/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/identifier.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/identifier.sqlite" afterDir="false" />
-    </list>
+    <list default="true" id="ebf72962-af7d-4470-9528-7becbea80bbb" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -108,7 +105,7 @@
       <workItem from="1702981973085" duration="1022000" />
       <workItem from="1703182810111" duration="61000" />
       <workItem from="1703182930442" duration="8965000" />
-      <workItem from="1703784165696" duration="8889000" />
+      <workItem from="1703784165696" duration="9582000" />
     </task>
     <servers />
   </component>
