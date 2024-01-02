@@ -1,6 +1,5 @@
 package ATM;
 
-import java.net.ConnectException;
 import java.sql.*;
 
 public class User {
@@ -9,12 +8,13 @@ public class User {
     private String last_name;
     private String IBAN;
     private int pin_code;
-    private int balance;
+    private double balance;
+    private boolean card_blocked;
 
     public User() {
     }
 
-    public User(String first_name, String last_name, String IBAN, int pin_code, int balance) {
+    public User(String first_name, String last_name, String IBAN, int pin_code, double balance, FunctionType User) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.IBAN = IBAN;
@@ -42,17 +42,28 @@ public class User {
         return pin_code;
     }
 
-    public int getBalance() {
+    public double getBalance() {
         return balance;
     }
 
-    private void setBalance(int balance) {
+    private void setBalance(double balance) {
         this.balance = balance;
     }
     public void setPin_code(int pin_code){
         this.pin_code = pin_code;
     }
-
+    private void setId_User(int anInt) {
+        this.id_User = anInt;
+    }
+    public void setCard_blocked(boolean b) {
+        this.card_blocked=b;
+    }
+    public boolean isCard_blocked(){
+        return card_blocked;
+    }
+    public FunctionType getType(){
+        return FunctionType.User;
+    }
     /**
      * Get user data by IBAN
      *
@@ -78,7 +89,8 @@ public class User {
                                 resultSet.getString("last_name"),
                                 resultSet.getString("iban"),
                                 resultSet.getInt("pin_code"),
-                                resultSet.getInt("balance")
+                                resultSet.getInt("balance"),
+                                resultSet.getString("Type").equals("Admin") ? FunctionType.Admin : FunctionType.User // if type = admin then admin else user
 
                         );
                     }
@@ -95,26 +107,46 @@ public class User {
      * Adds a user to the database
      *
      * @param user
+     * @return
      */
-    public static void addUser(User user) {
+    public static User addUser(User user) {
         String url = "jdbc:sqlite:A:/MoneyCheck - ATM Bancar/MoneyCheck-ATM-Bancar/identifier.sqlite";
         try {
-            Connection connection = DriverManager.getConnection(url);
-            String insertQuery = "INSERT INTO Users (first_name, last_name, iban, pin_code) VALUES (?, ?, ?, ?, ?)";
+            Connection connection = DriverManager.getConnection(url);   // connect to database
+            String insertQuery = "INSERT INTO Users (first_name, last_name, iban, pin_code, balance, Type) VALUES (?, ?, ?, ?, ?, ?)"; // insert query
 
-            try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
-                preparedStatement.setString(1, user.getFirst_name());
-                preparedStatement.setString(2, user.getLast_name());
-                preparedStatement.setString(3, user.getIBAN());
-                preparedStatement.setInt(4, user.getPin_code());
-                preparedStatement.setInt(5, user.getBalance());
+            try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) { // prepare statement
+                preparedStatement.setString(1, user.getFirst_name()); // set first name
+                preparedStatement.setString(2, user.getLast_name()); // set last name
+                preparedStatement.setString(3, user.getIBAN()); // set iban
+                preparedStatement.setInt(4, user.getPin_code());  // set pin code
+                preparedStatement.setDouble(5, user.getBalance()); // set balance
+                preparedStatement.setString(6, user.getType().toString()); // set type
 
-                preparedStatement.executeUpdate();
+                int affectedRows = preparedStatement.executeUpdate(); // execute update
+                if (affectedRows == 0) {
+                    throw new SQLException("Creating user failed, no rows affected."); // if no rows affected throw exception
+                }
             }
 
+            // Manually fetch the user's data using a SELECT query and set the ID
+            String selectQuery = "SELECT * FROM Users WHERE iban = ?"; // select query
+            try (PreparedStatement selectStatement = connection.prepareStatement(selectQuery)) { // prepare statement
+                selectStatement.setString(1, user.getIBAN()); // set iban
+
+                try (ResultSet resultSet = selectStatement.executeQuery()) { // execute query
+                    if (resultSet.next()) { // if user found
+                        user.setId_User(resultSet.getInt("id_User")); // set id
+                        // Set other user properties based on the retrieved data
+                    } else {
+                        throw new SQLException("Creating user failed, no ID obtained."); // if no id obtained throw exception
+                    }
+                }
+            }
         } catch (SQLException e) {
             throw new RuntimeException("Error at adding a user to the database!!", e);
         }
+        return user;
     }
 
     /**
@@ -125,32 +157,32 @@ public class User {
     public static void removeUser(User user) {
         String url = "jdbc:sqlite:A:/MoneyCheck - ATM Bancar/MoneyCheck-ATM-Bancar/identifier.sqlite";
         try {
-            Connection connection = DriverManager.getConnection(url);
-            String deleteQuery = "DELETE FROM Users WHERE iban = ?";
+            Connection connection = DriverManager.getConnection(url); // connect to database
+            String deleteQuery = "DELETE FROM Users WHERE iban = ?"; // delete query
 
 
-            try (PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
-                preparedStatement.setString(1, user.getIBAN());
-                preparedStatement.executeUpdate();
+            try (PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) { // prepare statement
+                preparedStatement.setString(1, user.getIBAN()); // set iban
+                preparedStatement.executeUpdate(); // execute update
             }
 
         } catch (SQLException e) {
             throw new RuntimeException("Error at deleting the user from database!!", e);
         }
     }
-    public static void insertTransaction(String user1_iban, String user2_iban, int amount, TransactionType transactionType){
+    public static void insertTransaction(String user1_iban, String user2_iban, double amount, TransactionType transactionType){
         String url = "jdbc:sqlite:A:/MoneyCheck - ATM Bancar/MoneyCheck-ATM-Bancar/identifier.sqlite";
         try{
-            Connection connection = DriverManager.getConnection(url);
-            String insertQuery = "INSERT INTO Transactions (sender_iban, receiver_iban, amount, transaction_type) VALUES (?, ?, ?, ?)";
+            Connection connection = DriverManager.getConnection(url); // connect to database
+            String insertQuery = "INSERT INTO Transactions (sender_iban, receiver_iban, amount, transaction_type) VALUES (?, ?, ?, ?)"; // insert query
 
-            try(PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)){
-                preparedStatement.setString(1,user1_iban);
-                preparedStatement.setString(2,user2_iban);
-                preparedStatement.setInt(3,amount);
-                preparedStatement.setString(4, String.valueOf(transactionType));
+            try(PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)){ // prepare statement
+                preparedStatement.setString(1,user1_iban); // set sender iban
+                preparedStatement.setString(2,user2_iban);  // set receiver iban
+                preparedStatement.setDouble(3,amount); // set amount
+                preparedStatement.setString(4, String.valueOf(transactionType)); // set transaction type
 
-                preparedStatement.executeUpdate();
+                preparedStatement.executeUpdate(); // execute update
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -162,20 +194,28 @@ public class User {
      * @param user
      * @param quantity
      */
-    public static void addBalance(User user, int quantity) {
+    public static void addBalance(User user, double quantity) {
         String url = "jdbc:sqlite:A:/MoneyCheck - ATM Bancar/MoneyCheck-ATM-Bancar/identifier.sqlite";
+        if(quantity < 0){
+            System.out.println("Quantity must be positive");
+            return;
+        }
+        if(user.isCard_blocked()){
+            System.out.println("Card is blocked");
+            return;
+        }
         try {
             Connection connection = DriverManager.getConnection(url);
-            String updateQuery = "UPDATE Users SET balance = ? WHERE iban = ?";
+            String updateQuery = "UPDATE Users SET balance = ? WHERE iban = ?"; // update balance
 
-            try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
-                preparedStatement.setInt(1, user.getBalance() + quantity);
-                preparedStatement.setString(2, user.getIBAN());
+            try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) { // prepare statement
+                preparedStatement.setDouble(1, user.getBalance() + quantity); // set new balance
+                preparedStatement.setString(2, user.getIBAN()); // where iban = user.getIBAN()
 
-                preparedStatement.executeUpdate();
+                preparedStatement.executeUpdate(); // execute update
             }
-            user.setBalance(user.getBalance() + quantity);
-            insertTransaction(user.getIBAN(), user.getIBAN(),quantity, TransactionType.Deposit);
+            user.setBalance(user.getBalance() + quantity); // update user balance
+            insertTransaction(user.getIBAN(), user.getIBAN(),quantity, TransactionType.Deposit); // insert transaction
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -187,19 +227,57 @@ public class User {
      * @param user
      * @param quantity
      */
-    public static void withdrawBalance(User user, int quantity) {
+    public static void withdrawBalance(User user, double quantity, MoneyCheckATM atm) {
         String url = "jdbc:sqlite:A:/MoneyCheck - ATM Bancar/MoneyCheck-ATM-Bancar/identifier.sqlite";
-        try (Connection connection = DriverManager.getConnection(url)) {
-            String updateQuery = "UPDATE Users SET Balance = ? WHERE Iban = ?";
+        if(quantity < 0){
+            System.out.println("Quantity must be positive");
+            return;
+        }
+        if(user.isCard_blocked()){
+            System.out.println("Card is blocked");
+            return;
+        }
+        try{
+            Connection connection = DriverManager.getConnection(url);
+            String selectQuery = "SELECT Atm_sold FROM ATM WHERE Atm_name = ?"; // Select the ATM sold value from the database
+            try (PreparedStatement selectStatement = connection.prepareStatement(selectQuery)) { // Prepare the query
+                selectStatement.setString(1, atm.getAtm_name()); // Set the ATM name
+                try (ResultSet resultSet = selectStatement.executeQuery()) { // Execute the query
+                    if (resultSet.next()) { // If the ATM is found in the database
+                        double currentSold = resultSet.getDouble("Atm_sold"); // Retrieve the current sold value from the database
+                        if(quantity > currentSold){
+                            System.out.println("Not enough money in ATM");
+                            return;
+                        }
+                        atm.setAmount_of_money(currentSold - quantity); // Update the MoneyCheckATM object
+                        // Update the ATM_sold value in the database
+                        String updateAtmQuery = "UPDATE ATM SET Atm_sold = ? WHERE Atm_name = ?";
+                        try (PreparedStatement updateAtmStatement = connection.prepareStatement(updateAtmQuery)) {
+                            updateAtmStatement.setDouble(1, currentSold - quantity);
+                            updateAtmStatement.setString(2, atm.getAtm_name());
+                            updateAtmStatement.executeUpdate();
+                        }
+                    } else {
+                        System.out.println("ATM not found in the database.");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        try (Connection connection = DriverManager.getConnection(url)) { // connect to database
+            String updateQuery = "UPDATE Users SET Balance = ? WHERE Iban = ?"; // update balance
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
-                preparedStatement.setInt(1, user.getBalance() - quantity);
-                preparedStatement.setString(2, user.getIBAN());
+                preparedStatement.setDouble(1, user.getBalance() - quantity); // set new balance
+                preparedStatement.setString(2, user.getIBAN()); // where iban = user.getIBAN()
 
-                preparedStatement.executeUpdate();
+                preparedStatement.executeUpdate(); // execute update
             }
-            user.setBalance(user.getBalance() - quantity);
-            insertTransaction(user.getIBAN(),user.getIBAN(),quantity,TransactionType.Withdraw);
+            user.setBalance(user.getBalance() - quantity); // update user balance
+            atm.setAmount_of_money(atm.getAmount_of_money() - quantity); // update ATM money
+            insertTransaction(user.getIBAN(),user.getIBAN(),quantity,TransactionType.Withdraw); // insert transaction
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
@@ -212,18 +290,22 @@ public class User {
      */
     public static void changePIN(User user, int newpin){
         String url = "jdbc:sqlite:A:/MoneyCheck - ATM Bancar/MoneyCheck-ATM-Bancar/identifier.sqlite";
+        if(user.isCard_blocked()){
+            System.out.println("Card is blocked");
+            return;
+        }
         try{
-            Connection connection = DriverManager.getConnection(url);
-            String updateQuery = "UPDATE Users SET Pin_code = ? WHERE Iban = ?";
+            Connection connection = DriverManager.getConnection(url); // connect to database
+            String updateQuery = "UPDATE Users SET Pin_code = ? WHERE Iban = ?"; // update pin code
 
-            try(PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)){
-                preparedStatement.setInt(1, newpin);
-                preparedStatement.setString(2,user.getIBAN());
+            try(PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)){ // prepare statement
+                preparedStatement.setInt(1, newpin); // set new pin code
+                preparedStatement.setString(2,user.getIBAN()); // where iban = user.getIBAN()
 
-                preparedStatement.executeUpdate();
+                preparedStatement.executeUpdate(); // execute update
             }
 
-            user.setPin_code(newpin);
+            user.setPin_code(newpin); // update user pin code
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -235,32 +317,39 @@ public class User {
      * @param user2
      * @param quantity
      */
-    public static void transferBetweenUsers(User user1, User user2, int quantity){
+    public static void transferBetweenUsers(User user1, User user2, double quantity){
         String url = "jdbc:sqlite:A:/MoneyCheck - ATM Bancar/MoneyCheck-ATM-Bancar/identifier.sqlite";
+        if(user1.isCard_blocked()) {
+            System.out.println(user1.getFirst_name() + " card is blocked");
+            return;
+        }
+        if(user2.isCard_blocked()) {
+            System.out.println(user2.getFirst_name() + " card is blocked");
+            return;
+        }
         try{
             // For user1 which is the one who send the money
-            Connection connection = DriverManager.getConnection(url);
-            String updateQuery = "UPDATE Users SET Balance = ? WHERE Iban = ?";
+            Connection connection = DriverManager.getConnection(url); // connect to database
+            String updateQuery = "UPDATE Users SET Balance = ? WHERE Iban = ?"; // update balance
 
-            try(PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)){
-                preparedStatement.setInt(1,user1.getBalance() - quantity);
-                preparedStatement.setString(2,user1.getIBAN());
+            try(PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)){ // prepare statement
+                preparedStatement.setDouble(1,user1.getBalance() - quantity); // set new balance
+                preparedStatement.setString(2,user1.getIBAN()); // where iban = user1.getIBAN()
 
-                preparedStatement.executeUpdate();
+                preparedStatement.executeUpdate(); // execute update
             }
-            user1.setBalance(user1.getBalance() - quantity);
+            user1.setBalance(user1.getBalance() - quantity); // update user1 balance
 
             // For user2 which is the one who receive the money
-            String updateQuery2 = "Update Users SET Balance = ? WHERE Iban = ?";
-            try(PreparedStatement preparedStatement = connection.prepareStatement(updateQuery2)){
-                preparedStatement.setInt(1, user2.getBalance() + quantity);
-                preparedStatement.setString(2,user2.getIBAN());
+            String updateQuery2 = "Update Users SET Balance = ? WHERE Iban = ?"; // update balance
+            try(PreparedStatement preparedStatement = connection.prepareStatement(updateQuery2)){ // prepare statement
+                preparedStatement.setDouble(1, user2.getBalance() + quantity); // set new balance
+                preparedStatement.setString(2,user2.getIBAN()); // where iban = user2.getIBAN()
 
-                preparedStatement.executeUpdate();
+                preparedStatement.executeUpdate(); // execute update
             }
-            user2.setBalance(user2.getBalance() + quantity);
-
-            insertTransaction(user1.getIBAN(), user2.getIBAN(), quantity, TransactionType.Transfer);
+            user2.setBalance(user2.getBalance() + quantity); // update user2 balance
+            insertTransaction(user1.getIBAN(), user2.getIBAN(), quantity, TransactionType.Transfer); // insert transaction
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -278,9 +367,12 @@ public class User {
         out.append("\nLast name: ").append(getLast_name());
         out.append("\nIBAN: ").append(getIBAN());
         out.append("\nPin code: ").append(getPin_code());
-
+        out.append("\nBalance: ").append(getBalance());
+        out.append("\nType: ").append(FunctionType.User).append("\n");
         return out.toString();
     }
+
+
 }
 
 
