@@ -1,12 +1,13 @@
 package ATM;
 
+import javax.swing.*;
 import java.sql.*;
 
 public class Admin {
     private String first_name;
     private String last_name;
     private String email;
-
+    public Admin(){}
     public Admin(String first_name, String last_name, String email, FunctionType admin){
         this.first_name=first_name;
         this.last_name=last_name;
@@ -15,14 +16,61 @@ public class Admin {
     public String getFirst_name(){
         return first_name;
     }
+    public void setFirst_name(String first_name){
+        this.first_name=first_name;
+    }
     public String getLast_name(){
         return last_name;
+    }
+    public void setLast_name(String last_name){
+        this.last_name=last_name;
     }
     public String getEmail(){
         return email;
     }
+    public void setEmail(String email){
+        this.email=email;
+    }
     public FunctionType getFunctionType(){
         return FunctionType.Admin;
+    }
+
+    /**
+     * This method is used to add an admin to the database
+     * @param admin
+     */
+    public static void addAdminToDatabase(Admin admin) {
+        String url = "jdbc:sqlite:A:/MoneyCheck - ATM Bancar/MoneyCheck-ATM-Bancar/identifier.sqlite";
+        try (Connection connection = DriverManager.getConnection(url)) {
+            String insertQuery = "INSERT INTO Admin(Admin_first_name, Admin_last_name, Admin_email) VALUES(?, ?, ?)";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+                preparedStatement.setString(1, admin.getFirst_name());
+                preparedStatement.setString(2, admin.getLast_name());
+                preparedStatement.setString(3, admin.getEmail());
+
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * This method is used to remove an admin from the database
+     * @param admin
+     */
+    public static void removeAdminFromDatabase(Admin admin){
+        String url = "jdbc:sqlite:A:/MoneyCheck - ATM Bancar/MoneyCheck-ATM-Bancar/identifier.sqlite";
+        try (Connection connection = DriverManager.getConnection(url)) {
+            String deleteQuery = "DELETE FROM Admin WHERE Admin_email = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
+                preparedStatement.setString(1, admin.getEmail());
+
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -72,7 +120,37 @@ public class Admin {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        
     }
+
+    /**
+     * This method is used to get the admin data by email
+     * @param email
+     * @return
+     */
+    public static Admin getAdminDataByEmail(String email){
+        String url = "jdbc:sqlite:A:/MoneyCheck - ATM Bancar/MoneyCheck-ATM-Bancar/identifier.sqlite";
+        Admin admin = new Admin();
+        try (Connection connection = DriverManager.getConnection(url)) {
+            String selectQuery = "SELECT * FROM Admin WHERE Admin_email = ?";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
+                preparedStatement.setString(1, email);
+
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        admin.setFirst_name(resultSet.getString("Admin_first_name"));
+                        admin.setLast_name(resultSet.getString("Admin_last_name"));
+                        admin.setEmail(resultSet.getString("Admin_email"));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return admin;
+    }
+
 
     @Override
     public String toString(){
