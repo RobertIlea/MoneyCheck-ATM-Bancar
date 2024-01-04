@@ -446,7 +446,7 @@
     <routine id="176" parent="1" name="fts5"/>
     <schema id="177" parent="1" name="main">
       <Current>1</Current>
-      <LastIntrospectionLocalTimestamp>2023-12-28.19:35:10</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-01-04.15:09:03</LastIntrospectionLocalTimestamp>
     </schema>
     <argument id="178" parent="16">
       <ArgumentDirection>R</ArgumentDirection>
@@ -1468,113 +1468,229 @@
     <argument id="517" parent="176">
       <Position>1</Position>
     </argument>
-    <table id="518" parent="177" name="Transactions"/>
-    <table id="519" parent="177" name="Users"/>
-    <table id="520" parent="177" name="sqlite_master">
+    <table id="518" parent="177" name="ATM"/>
+    <table id="519" parent="177" name="Admin"/>
+    <table id="520" parent="177" name="Transactions"/>
+    <table id="521" parent="177" name="Users"/>
+    <table id="522" parent="177" name="sqlite_master">
       <System>1</System>
     </table>
-    <table id="521" parent="177" name="sqlite_sequence">
+    <table id="523" parent="177" name="sqlite_sequence">
       <System>1</System>
     </table>
-    <column id="522" parent="518" name="transaction_id">
-      <DasType>INTEGER|0s</DasType>
-      <Position>1</Position>
-    </column>
-    <column id="523" parent="518" name="sender_iban">
-      <DasType>VARCHAR(20)|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>2</Position>
-    </column>
-    <column id="524" parent="518" name="receiver_iban">
-      <DasType>VARCHAR(20)|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>3</Position>
-    </column>
-    <column id="525" parent="518" name="amount">
-      <DasType>INTEGER|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>4</Position>
-    </column>
-    <column id="526" parent="518" name="transaction_type">
-      <DasType>VARCHAR(20)|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>5</Position>
-    </column>
-    <column id="527" parent="518" name="transaction_date">
-      <DasType>TIMESTAMP|0s</DasType>
-      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
-      <Position>6</Position>
-    </column>
-    <key id="528" parent="518">
-      <ColNames>transaction_id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <column id="529" parent="519" name="id_User">
+    <column id="524" parent="518" name="id_Atm">
       <AutoIncrement>1</AutoIncrement>
       <DasType>INTEGER|0s</DasType>
       <Position>1</Position>
     </column>
-    <column id="530" parent="519" name="first_name">
+    <column id="525" parent="518" name="Atm_name">
       <DasType>VARCHAR(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="531" parent="519" name="last_name">
+    <column id="526" parent="518" name="Atm_admin">
       <DasType>VARCHAR(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="532" parent="519" name="iban">
+    <column id="527" parent="518" name="Atm_users">
+      <DasType>INT|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+    </column>
+    <column id="528" parent="518" name="Atm_sold">
+      <DasType>DOUBLE|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+    </column>
+    <index id="529" parent="518" name="sqlite_autoindex_ATM_1">
+      <ColNames>Atm_name</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <Unique>1</Unique>
+    </index>
+    <key id="530" parent="518">
+      <ColNames>id_Atm</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="531" parent="518" name="Atm_name">
+      <ColNames>Atm_name</ColNames>
+      <UnderlyingIndexName>sqlite_autoindex_ATM_1</UnderlyingIndexName>
+    </key>
+    <column id="532" parent="519" name="Id_admin">
+      <AutoIncrement>1</AutoIncrement>
+      <DasType>INTEGER|0s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="533" parent="519" name="Admin_email">
+      <DasType>VARCHAR(255)|0s</DasType>
+      <Position>2</Position>
+    </column>
+    <column id="534" parent="519" name="Admin_first_name">
+      <DasType>VARCHAR(255)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+    </column>
+    <column id="535" parent="519" name="Admin_last_name">
+      <DasType>VARCHAR(255)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+    </column>
+    <index id="536" parent="519" name="sqlite_autoindex_Admin_1">
+      <ColNames>Admin_email</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <Unique>1</Unique>
+    </index>
+    <key id="537" parent="519">
+      <ColNames>Id_admin</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="538" parent="519">
+      <ColNames>Admin_email</ColNames>
+      <UnderlyingIndexName>sqlite_autoindex_Admin_1</UnderlyingIndexName>
+    </key>
+    <column id="539" parent="520" name="transaction_id">
+      <DasType>INTEGER|0s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="540" parent="520" name="sender_iban">
+      <DasType>VARCHAR(20)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="541" parent="520" name="receiver_iban">
+      <DasType>VARCHAR(20)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+    </column>
+    <column id="542" parent="520" name="amount">
+      <DasType>INTEGER|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+    </column>
+    <column id="543" parent="520" name="transaction_type">
+      <DasType>VARCHAR(20)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+    </column>
+    <column id="544" parent="520" name="transaction_date">
+      <DasType>TIMESTAMP|0s</DasType>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+      <Position>6</Position>
+    </column>
+    <key id="545" parent="520">
+      <ColNames>transaction_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="546" parent="521" name="id_User">
+      <AutoIncrement>1</AutoIncrement>
+      <DasType>INTEGER|0s</DasType>
+      <Position>1</Position>
+    </column>
+    <column id="547" parent="521" name="first_name">
+      <DasType>VARCHAR(255)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="548" parent="521" name="last_name">
+      <DasType>VARCHAR(255)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+    </column>
+    <column id="549" parent="521" name="iban">
       <DasType>VARCHAR(30)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="533" parent="519" name="pin_code">
+    <column id="550" parent="521" name="pin_code">
       <DasType>NUMBER(4)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <column id="534" parent="519" name="balance">
-      <DasType>VARCHAR(999999999)|0s</DasType>
+    <column id="551" parent="521" name="balance">
+      <DasType>DOUBLE|0s</DasType>
       <Position>6</Position>
     </column>
-    <index id="535" parent="519" name="sqlite_autoindex_Users_1">
+    <column id="552" parent="521" name="Type">
+      <DasType>VARCHAR(30)|0s</DasType>
+      <Position>7</Position>
+    </column>
+    <column id="553" parent="521" name="atm">
+      <DasType>VARCHAR(255)|0s</DasType>
+      <Position>8</Position>
+    </column>
+    <column id="554" parent="521" name="mail">
+      <DasType>VARCHAR(255)|0s</DasType>
+      <Position>9</Position>
+    </column>
+    <foreign-key id="555" parent="521" name="atm_fk">
+      <ColNames>atm</ColNames>
+      <RefColNames>Atm_name</RefColNames>
+      <RefTableName>ATM</RefTableName>
+    </foreign-key>
+    <index id="556" parent="521" name="sqlite_autoindex_Users_1">
+      <ColNames>first_name</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <Unique>1</Unique>
+    </index>
+    <index id="557" parent="521" name="sqlite_autoindex_Users_2">
+      <ColNames>last_name</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <Unique>1</Unique>
+    </index>
+    <index id="558" parent="521" name="sqlite_autoindex_Users_3">
       <ColNames>iban</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Unique>1</Unique>
     </index>
-    <key id="536" parent="519">
+    <index id="559" parent="521" name="sqlite_autoindex_Users_4">
+      <ColNames>mail</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <Unique>1</Unique>
+    </index>
+    <key id="560" parent="521">
       <ColNames>id_User</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="537" parent="519">
-      <ColNames>iban</ColNames>
+    <key id="561" parent="521" name="Users_pk_2">
+      <ColNames>first_name</ColNames>
       <UnderlyingIndexName>sqlite_autoindex_Users_1</UnderlyingIndexName>
     </key>
-    <column id="538" parent="520" name="type">
+    <key id="562" parent="521" name="Users_pk_3">
+      <ColNames>last_name</ColNames>
+      <UnderlyingIndexName>sqlite_autoindex_Users_2</UnderlyingIndexName>
+    </key>
+    <key id="563" parent="521">
+      <ColNames>iban</ColNames>
+      <UnderlyingIndexName>sqlite_autoindex_Users_3</UnderlyingIndexName>
+    </key>
+    <key id="564" parent="521" name="Users_pk">
+      <ColNames>mail</ColNames>
+      <UnderlyingIndexName>sqlite_autoindex_Users_4</UnderlyingIndexName>
+    </key>
+    <column id="565" parent="522" name="type">
       <DasType>TEXT|0s</DasType>
       <Position>1</Position>
     </column>
-    <column id="539" parent="520" name="name">
+    <column id="566" parent="522" name="name">
       <DasType>TEXT|0s</DasType>
       <Position>2</Position>
     </column>
-    <column id="540" parent="520" name="tbl_name">
+    <column id="567" parent="522" name="tbl_name">
       <DasType>TEXT|0s</DasType>
       <Position>3</Position>
     </column>
-    <column id="541" parent="520" name="rootpage">
+    <column id="568" parent="522" name="rootpage">
       <DasType>INT|0s</DasType>
       <Position>4</Position>
     </column>
-    <column id="542" parent="520" name="sql">
+    <column id="569" parent="522" name="sql">
       <DasType>TEXT|0s</DasType>
       <Position>5</Position>
     </column>
-    <column id="543" parent="521" name="name">
+    <column id="570" parent="523" name="name">
       <Position>1</Position>
     </column>
-    <column id="544" parent="521" name="seq">
+    <column id="571" parent="523" name="seq">
       <Position>2</Position>
     </column>
   </database-model>

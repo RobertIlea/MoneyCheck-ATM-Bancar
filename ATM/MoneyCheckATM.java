@@ -1,9 +1,6 @@
 package ATM;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class MoneyCheckATM {
@@ -43,6 +40,71 @@ public class MoneyCheckATM {
     }
     public void setAmount_of_money(double sum) {
         this.amount_of_money = sum;
+    }
+
+    /**
+     * This method is used to retrieve an ATM from database
+     * @param name
+     */
+    public static MoneyCheckATM retrieveAtmFromDatabase(String name) {
+        String url = "jdbc:sqlite:A:/MoneyCheck - ATM Bancar/MoneyCheck-ATM-Bancar/identifier.sqlite";
+        MoneyCheckATM ATM = new MoneyCheckATM();
+
+        try (Connection connection = DriverManager.getConnection(url)) {
+            String selectQuery = "SELECT a.*, COUNT(u.iban) AS numUsers, u.first_name, u.last_name, u.iban, u.pin_code, u.balance, u.Type, u.mail, u.card_blocked " +
+                    "FROM ATM a LEFT JOIN Users u ON a.Atm_name = u.atm " +
+                    "WHERE a.Atm_name = ?";
+
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
+                preparedStatement.setString(1, name);
+
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        if (ATM.getAtm_name() == null) { // Retrieve the ATM data only once
+                            ATM.setAtm_name(resultSet.getString("Atm_name"));
+                            if (resultSet.getString("Atm_sold") != null) {
+                                ATM.setAmount_of_money(resultSet.getDouble("Atm_sold"));
+                            }
+                            int numUsers = resultSet.getInt("numUsers");
+                            ATM.setUsers(new ArrayList<>());
+
+                            // Retrieve and set the admin
+                            Admin admin = Admin.getAdminDataByEmail(resultSet.getString("Atm_admin"));
+                            ATM.setAdmin(admin);
+
+                            // Process user data for the specified number of users
+                            boolean cardBlocked = resultSet.getBoolean("card_blocked");
+                            String cardBlockedString = cardBlocked ? "true" : "false";
+                            for (int i = 0; i < numUsers; i++) {
+                                String userFirstName = resultSet.getString("first_name");
+                                if (userFirstName != null) {
+                                    User user = new User(
+                                            userFirstName,
+                                            resultSet.getString("last_name"),
+                                            resultSet.getString("iban"),
+                                            resultSet.getInt("pin_code"),
+                                            resultSet.getInt("balance"),
+                                            resultSet.getString("Type").equals("Admin") ? FunctionType.Admin : FunctionType.User,
+                                            ATM.atm_name,
+                                            resultSet.getString("mail"),
+                                            cardBlocked // Convert the boolean to a string
+                                    );
+                                    ATM.getUsers().add(user);
+                                    user.setCard_blocked(cardBlockedString); // Set the card_blocked field
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching ATM data from the database: " + e.getMessage());
+            e.printStackTrace();  // Print the stack trace for detailed error information
+            throw new RuntimeException(e);
+        }
+        return ATM;
     }
 
     /**

@@ -4,7 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ebf72962-af7d-4470-9528-7becbea80bbb" name="Changes" comment="" />
+    <list default="true" id="ebf72962-af7d-4470-9528-7becbea80bbb" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/ATM/MoneyCheck.form" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ATM/MoneyCheck.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ATM/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/ATM/Admin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ATM/MainATM.java" beforeDir="false" afterPath="$PROJECT_DIR$/ATM/MainATM.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ATM/MoneyCheckATM.java" beforeDir="false" afterPath="$PROJECT_DIR$/ATM/MoneyCheckATM.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ATM/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/ATM/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/identifier.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/identifier.sqlite" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MoneyCheck-ATM-Bancar/.idea/dataSources/3cd63716-21a6-4ace-8e2f-ae1d48aad32e.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MoneyCheck-ATM-Bancar/.idea/dataSources/3cd63716-21a6-4ace-8e2f-ae1d48aad32e.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MoneyCheck-ATM-Bancar/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MoneyCheck-ATM-Bancar/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MoneyCheck-ATM-Bancar/identifier.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MoneyCheck-ATM-Bancar/identifier.sqlite" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -18,8 +29,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -37,38 +48,52 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.MainATM.executor": "Run",
-    "Application.main.executor": "Run",
-    "Notification.DisplayName-DoNotAsk-Vcs Important Messages": "VCS important messages",
-    "Notification.DoNotAsk-Vcs Important Messages": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "A:/java db/sqlite-jdbc-3.44.1.0.jar",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.3",
-    "settings.editor.selected.configurable": "database.data.views",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.MainATM.executor&quot;: &quot;Run&quot;,
+    &quot;Application.MoneyCheck.executor&quot;: &quot;Run&quot;,
+    &quot;Application.main.executor&quot;: &quot;Run&quot;,
+    &quot;Notification.DisplayName-DoNotAsk-Vcs Important Messages&quot;: &quot;VCS important messages&quot;,
+    &quot;Notification.DoNotAsk-Vcs Important Messages&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;A:/java db/sqlite-jdbc-3.44.1.0.jar&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.3&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;database.data.views&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "sqlite"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;sqlite&quot;
     ]
   }
-}]]></component>
-  <component name="RunManager">
+}</component>
+  <component name="RunManager" selected="Application.MainATM">
     <configuration name="MainATM" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="ATM.MainATM" />
+      <module name="MoneyCheck-ATM-Bancar" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ATM.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MoneyCheck" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ATM.MoneyCheck" />
       <module name="MoneyCheck-ATM-Bancar" />
       <extension name="coverage">
         <pattern>
@@ -83,6 +108,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.MainATM" />
+        <item itemvalue="Application.MoneyCheck" />
       </list>
     </recent_temporary>
   </component>
@@ -106,6 +132,11 @@
       <workItem from="1703182810111" duration="61000" />
       <workItem from="1703182930442" duration="8965000" />
       <workItem from="1703784165696" duration="9582000" />
+      <workItem from="1703863186653" duration="16415000" />
+      <workItem from="1704204714253" duration="47000" />
+      <workItem from="1704209114679" duration="4456000" />
+      <workItem from="1704283468432" duration="6241000" />
+      <workItem from="1704370062593" duration="11704000" />
     </task>
     <servers />
   </component>
@@ -122,5 +153,15 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.sql.SQLFeatureNotSupportedException" package="java.sql" />
+          <option name="timeStamp" value="5" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
