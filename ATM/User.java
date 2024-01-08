@@ -202,7 +202,14 @@ public class User {
         }
     }
 
-
+    /**
+     * Insert a transaction into the database
+     *
+     * @param user1_iban
+     * @param user2_iban
+     * @param amount
+     * @param transactionType
+     */ 
     public static void insertTransaction(String user1_iban, String user2_iban, double amount, TransactionType transactionType){
         String url = "jdbc:sqlite:A:/MoneyCheck - ATM Bancar/MoneyCheck-ATM-Bancar/identifier.sqlite";
         try{
