@@ -5,11 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ebf72962-af7d-4470-9528-7becbea80bbb" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/ATM/MoneyCheck.form" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ATM/MoneyCheck.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ATM/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/ATM/Admin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ATM/MainATM.java" beforeDir="false" afterPath="$PROJECT_DIR$/ATM/MainATM.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ATM/MoneyCheckATM.java" beforeDir="false" afterPath="$PROJECT_DIR$/ATM/MoneyCheckATM.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ATM/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/ATM/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/identifier.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/identifier.sqlite" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/MoneyCheck-ATM-Bancar/.idea/dataSources/3cd63716-21a6-4ace-8e2f-ae1d48aad32e.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MoneyCheck-ATM-Bancar/.idea/dataSources/3cd63716-21a6-4ace-8e2f-ae1d48aad32e.xml" afterDir="false" />
@@ -48,37 +43,41 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.MainATM.executor&quot;: &quot;Run&quot;,
-    &quot;Application.MoneyCheck.executor&quot;: &quot;Run&quot;,
-    &quot;Application.main.executor&quot;: &quot;Run&quot;,
-    &quot;Notification.DisplayName-DoNotAsk-Vcs Important Messages&quot;: &quot;VCS important messages&quot;,
-    &quot;Notification.DoNotAsk-Vcs Important Messages&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;A:/java db/sqlite-jdbc-3.44.1.0.jar&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.3&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;database.data.views&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.MainATM.executor": "Run",
+    "Application.MoneyCheck.executor": "Run",
+    "Application.main.executor": "Run",
+    "Downloaded.Files.Path.Enabled": "false",
+    "Notification.DisplayName-DoNotAsk-Vcs Important Messages": "VCS important messages",
+    "Notification.DoNotAsk-Vcs Important Messages": "true",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "A:/java db/sqlite-jdbc-3.44.1.0.jar",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.3",
+    "settings.editor.selected.configurable": "database.data.views",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;sqlite&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "sqlite"
     ]
   }
-}</component>
-  <component name="RunManager" selected="Application.MainATM">
+}]]></component>
+  <component name="RunManager" selected="JUnit.Tests">
     <configuration name="MainATM" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="ATM.MainATM" />
       <module name="MoneyCheck-ATM-Bancar" />
@@ -105,10 +104,26 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Tests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="MoneyCheck-ATM-Bancar" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ATM.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="ATM" />
+      <option name="MAIN_CLASS_NAME" value="ATM.Tests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.MainATM" />
+        <item itemvalue="JUnit.Tests" />
         <item itemvalue="Application.MoneyCheck" />
+        <item itemvalue="Application.MainATM" />
       </list>
     </recent_temporary>
   </component>
@@ -137,6 +152,10 @@
       <workItem from="1704209114679" duration="4456000" />
       <workItem from="1704283468432" duration="6241000" />
       <workItem from="1704370062593" duration="11704000" />
+      <workItem from="1704381828149" duration="11916000" />
+      <workItem from="1704398826527" duration="120000" />
+      <workItem from="1704406963164" duration="1348000" />
+      <workItem from="1704743464026" duration="959000" />
     </task>
     <servers />
   </component>

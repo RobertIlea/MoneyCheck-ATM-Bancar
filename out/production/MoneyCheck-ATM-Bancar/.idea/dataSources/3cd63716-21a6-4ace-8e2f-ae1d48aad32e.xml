@@ -446,7 +446,7 @@
     <routine id="176" parent="1" name="fts5"/>
     <schema id="177" parent="1" name="main">
       <Current>1</Current>
-      <LastIntrospectionLocalTimestamp>2024-01-04.15:09:03</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-01-04.19:04:40</LastIntrospectionLocalTimestamp>
     </schema>
     <argument id="178" parent="16">
       <ArgumentDirection>R</ArgumentDirection>
@@ -1622,75 +1622,79 @@
       <DasType>VARCHAR(255)|0s</DasType>
       <Position>9</Position>
     </column>
-    <foreign-key id="555" parent="521" name="atm_fk">
+    <column id="555" parent="521" name="card_blocked">
+      <DasType>boolean|0s</DasType>
+      <Position>10</Position>
+    </column>
+    <foreign-key id="556" parent="521" name="atm_fk">
       <ColNames>atm</ColNames>
       <RefColNames>Atm_name</RefColNames>
       <RefTableName>ATM</RefTableName>
     </foreign-key>
-    <index id="556" parent="521" name="sqlite_autoindex_Users_1">
+    <index id="557" parent="521" name="sqlite_autoindex_Users_1">
       <ColNames>first_name</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Unique>1</Unique>
     </index>
-    <index id="557" parent="521" name="sqlite_autoindex_Users_2">
+    <index id="558" parent="521" name="sqlite_autoindex_Users_2">
       <ColNames>last_name</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Unique>1</Unique>
     </index>
-    <index id="558" parent="521" name="sqlite_autoindex_Users_3">
+    <index id="559" parent="521" name="sqlite_autoindex_Users_3">
       <ColNames>iban</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Unique>1</Unique>
     </index>
-    <index id="559" parent="521" name="sqlite_autoindex_Users_4">
+    <index id="560" parent="521" name="sqlite_autoindex_Users_4">
       <ColNames>mail</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Unique>1</Unique>
     </index>
-    <key id="560" parent="521">
+    <key id="561" parent="521">
       <ColNames>id_User</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="561" parent="521" name="Users_pk_2">
+    <key id="562" parent="521" name="Users_pk_2">
       <ColNames>first_name</ColNames>
       <UnderlyingIndexName>sqlite_autoindex_Users_1</UnderlyingIndexName>
     </key>
-    <key id="562" parent="521" name="Users_pk_3">
+    <key id="563" parent="521" name="Users_pk_3">
       <ColNames>last_name</ColNames>
       <UnderlyingIndexName>sqlite_autoindex_Users_2</UnderlyingIndexName>
     </key>
-    <key id="563" parent="521">
+    <key id="564" parent="521">
       <ColNames>iban</ColNames>
       <UnderlyingIndexName>sqlite_autoindex_Users_3</UnderlyingIndexName>
     </key>
-    <key id="564" parent="521" name="Users_pk">
+    <key id="565" parent="521" name="Users_pk">
       <ColNames>mail</ColNames>
       <UnderlyingIndexName>sqlite_autoindex_Users_4</UnderlyingIndexName>
     </key>
-    <column id="565" parent="522" name="type">
+    <column id="566" parent="522" name="type">
       <DasType>TEXT|0s</DasType>
       <Position>1</Position>
     </column>
-    <column id="566" parent="522" name="name">
+    <column id="567" parent="522" name="name">
       <DasType>TEXT|0s</DasType>
       <Position>2</Position>
     </column>
-    <column id="567" parent="522" name="tbl_name">
+    <column id="568" parent="522" name="tbl_name">
       <DasType>TEXT|0s</DasType>
       <Position>3</Position>
     </column>
-    <column id="568" parent="522" name="rootpage">
+    <column id="569" parent="522" name="rootpage">
       <DasType>INT|0s</DasType>
       <Position>4</Position>
     </column>
-    <column id="569" parent="522" name="sql">
+    <column id="570" parent="522" name="sql">
       <DasType>TEXT|0s</DasType>
       <Position>5</Position>
     </column>
-    <column id="570" parent="523" name="name">
+    <column id="571" parent="523" name="name">
       <Position>1</Position>
     </column>
-    <column id="571" parent="523" name="seq">
+    <column id="572" parent="523" name="seq">
       <Position>2</Position>
     </column>
   </database-model>
