@@ -8,7 +8,12 @@ public class MoneyCheckATM {
     private double amount_of_money;
     private ArrayList<User> users;
     private Admin admin;
-    public MoneyCheckATM(){}
+    public MoneyCheckATM(){
+        this.atm_name=null;
+        this.amount_of_money=0.0;
+        this.users=null;
+        this.admin=null;
+    }
 
     public MoneyCheckATM(String atmName, double amount_of_money, ArrayList<User> users, Admin admin){
         this.atm_name = atmName;
@@ -31,7 +36,6 @@ public class MoneyCheckATM {
     public Admin getAdmin(){
         return admin;
     }
-
     public void setUsers(ArrayList<User> users){
         this.users=users;
     }
@@ -49,7 +53,6 @@ public class MoneyCheckATM {
     public static MoneyCheckATM retrieveAtmFromDatabase(String name) {
         String url = "jdbc:sqlite:A:/MoneyCheck - ATM Bancar/MoneyCheck-ATM-Bancar/identifier.sqlite";
         MoneyCheckATM ATM = new MoneyCheckATM();
-
         try (Connection connection = DriverManager.getConnection(url)) {
             String selectQuery = "SELECT a.*, COUNT(u.iban) AS numUsers, u.first_name, u.last_name, u.iban, u.pin_code, u.balance, u.Type, u.mail, u.card_blocked " +
                     "FROM ATM a LEFT JOIN Users u ON a.Atm_name = u.atm " +
@@ -101,7 +104,6 @@ public class MoneyCheckATM {
             }
         } catch (SQLException e) {
             System.err.println("Error fetching ATM data from the database: " + e.getMessage());
-            e.printStackTrace();  // Print the stack trace for detailed error information
             throw new RuntimeException(e);
         }
         return ATM;
@@ -146,6 +148,37 @@ public class MoneyCheckATM {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * Check if the atm exists.
+     * @param atmName
+     * @return
+     */
+    public static boolean atmExists(String atmName) {
+        String url = "jdbc:sqlite:A:/MoneyCheck - ATM Bancar/MoneyCheck-ATM-Bancar/identifier.sqlite";
+
+        try (Connection connection = DriverManager.getConnection(url)) {
+            String query = "SELECT COUNT(*) FROM ATM WHERE Atm_name = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setString(1, atmName);
+
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        int count = resultSet.getInt(1);
+                        return count > 0;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
+    }
+
+    /**
+     * Override toString method for the ATM class
+     * @return
+     */
     @Override
     public String toString(){
         StringBuilder out = new StringBuilder();
