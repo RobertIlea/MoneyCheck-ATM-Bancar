@@ -125,6 +125,46 @@ public class User {
     }
 
     /**
+     * Method to retrieve the user data by their email.
+     * @param email
+     * @return
+     */
+    public static User getUserDataByEmail(String email){
+        String url = "jdbc:sqlite:A:/MoneyCheck - ATM Bancar/MoneyCheck-ATM-Bancar/identifier.sqlite";
+        User user = null;
+
+        try (Connection connection = DriverManager.getConnection(url)) {
+            String selectQuery = "SELECT * FROM Users WHERE mail = ?";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
+                preparedStatement.setString(1, email);
+
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        // User found, create a User object with the retrieved data
+                        user = new User(
+                                //resultSet.getInt("id_User"),
+                                resultSet.getString("first_name"),
+                                resultSet.getString("last_name"),
+                                resultSet.getString("iban"),
+                                resultSet.getInt("pin_code"),
+                                resultSet.getInt("balance"),
+                                resultSet.getString("Type").equals("Admin") ? FunctionType.Admin : FunctionType.User, // if type = admin then admin else user
+                                resultSet.getString("atm"),
+                                resultSet.getString("mail"),
+                                resultSet.getBoolean("card_blocked")
+                        );
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error retrieving user data from the database", e);
+        }
+
+        return user;
+    }
+
+    /**
      * Adds a user to the database
      *
      * @param user
