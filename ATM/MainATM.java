@@ -37,7 +37,8 @@ public class MainATM {
      * @return
      */
     public static Integer randomPinCode(){
-        int pin_code = (int)(Math.random()*10000);
+        int pin_code;
+        pin_code = (int)(Math.random()*10000);
         return pin_code;
     }
 
@@ -51,6 +52,19 @@ public class MainATM {
         first_name = first_name.toLowerCase();
         last_name = last_name.toLowerCase();
         String email = first_name+"."+last_name+"@atm.com";
+        return email;
+    }
+
+    /**
+     * This method is used to generate an admin email
+     * @param first_name
+     * @param last_name
+     * @return
+     */
+    public static String generateAdminEmail(String first_name, String last_name){
+        first_name = first_name.toLowerCase();
+        last_name = last_name.toLowerCase();
+        String email = first_name+"."+last_name+"@admin.com";
         return email;
     }
     public static void main(String[] args) {
