@@ -151,7 +151,10 @@ public class Admin {
         return admin;
     }
 
-
+    /**
+     * Override the toString method for the Admin class
+     * @return
+     */
     @Override
     public String toString(){
         StringBuilder out = new StringBuilder();
