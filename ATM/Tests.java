@@ -6,6 +6,9 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * This class is used to test the ATM application.
+ */
 public class Tests {
 
     /**
@@ -14,7 +17,7 @@ public class Tests {
     @Test
     public void testAddUser() {
         ArrayList<User> users = new ArrayList<>();
-        User user = new User("Marina", "Testt", "12345678921", 1234, 100.0, FunctionType.User, "MoneyCheck", "marina.doe@example.com", false);
+        User user = new User("Adriana", "Test123", "123456789221", 1234, 100.0, FunctionType.User, "MoneyCheck", "adriana.Test123@example.com", false);
         User addedUser = User.addUser(user, users);
         assertEquals(user.getFirst_name(), addedUser.getFirst_name());
         assertEquals(user.getLast_name(), addedUser.getLast_name());

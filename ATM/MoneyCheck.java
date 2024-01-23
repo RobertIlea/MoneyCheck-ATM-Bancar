@@ -13,6 +13,9 @@ import java.util.ArrayList;
 
 import static ATM.MainATM.*;
 
+/**
+ * This class is used to create a GUI for the ATM application.
+ */
 public class MoneyCheck extends JFrame {
     private JButton adminButton;
     private JButton userButton;
@@ -23,8 +26,9 @@ public class MoneyCheck extends JFrame {
     private ArrayList<User> users;
     private JButton blockCardButton;
     private JButton unBlockCardButton;
-    private JTextArea email;
-    private JTextArea pincode;
+    private JTextField email;
+    private JTextField pincode;
+    private JTextField adminPassword;
     public MoneyCheck() {
         setTitle("ATM MoneyCheck");
         setSize(400, 200);
@@ -33,9 +37,6 @@ public class MoneyCheck extends JFrame {
         initializeComponents();
     }
 
-    /**
-     * Initialize the components of the frame.
-     */
     private void initializeComponents() {
         JPanel mainPanel = new JPanel(new GridLayout(2, 1)); // 2 rows, 1 column
 
@@ -45,14 +46,14 @@ public class MoneyCheck extends JFrame {
         adminButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                openAdminPanel();
+                openAdminLoginPanel();
             }
         });
 
         userButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                openUserPanel();
+                openUserLoginPanel();
             }
         });
 
@@ -65,9 +66,6 @@ public class MoneyCheck extends JFrame {
         add(mainPanel);
     }
 
-    /**
-     * Add a new user to the ATM
-     */
     private void addUserToATM(){
         String user_first_name = JOptionPane.showInputDialog("Enter user first name:");
         if (user_first_name == null || user_first_name.isEmpty()) {
@@ -121,17 +119,17 @@ public class MoneyCheck extends JFrame {
 
     }
 
-    /**
-     * Add money to the ATM
-     */
     private void addMoneyToATM(){
         String atmName = JOptionPane.showInputDialog("Enter the name of the ATM:");
         if (atmName == null || atmName.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Invalid ATM name. Please enter a valid name.");
             return;
         }
-        ATM = MoneyCheckATM.retrieveAtmFromDatabase(atmName);
-
+        MoneyCheckATM atm = MoneyCheckATM.retrieveAtmFromDatabase(atmName);
+        if(atm == null || atm.getAtm_name() == null || atm.getAtm_name().isEmpty()){
+            JOptionPane.showMessageDialog(this, "ATM not found!");
+            return;
+        }
         String quantityStr = JOptionPane.showInputDialog("Enter the quantity of money to add:");
         if (quantityStr != null && !quantityStr.isEmpty()) {
             try {
@@ -140,7 +138,7 @@ public class MoneyCheck extends JFrame {
                     JOptionPane.showMessageDialog(this, "Quantity must be greater than 0!");
                     return;
                 }
-                Admin.addMoneyToATM(ATM, quantity);
+                Admin.addMoneyToATM(atm, quantity);
                 JOptionPane.showMessageDialog(this, "Money added to ATM: " + quantity);
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "Invalid input. Please enter a valid number.");
@@ -150,11 +148,7 @@ public class MoneyCheck extends JFrame {
         }
     }
 
-    /**
-     * Delete a user from the ATM
-     */
     private void deleteUser(){
-        // TODO: it works but needs some adjustments
         String user_iban = JOptionPane.showInputDialog("Enter user IBAN:");
         if(user_iban == null || user_iban.isEmpty()){
             JOptionPane.showMessageDialog(this, "Invalid IBAN");
@@ -184,9 +178,6 @@ public class MoneyCheck extends JFrame {
         }
     }
 
-    /**
-     * Block a card
-     */
     private void blockCard() {
         String userIban = JOptionPane.showInputDialog("Enter user IBAN:");
         if (userIban == null || userIban.isEmpty()) {
@@ -226,10 +217,6 @@ public class MoneyCheck extends JFrame {
             e.printStackTrace();
         }
     }
-
-    /**
-     * Unblock a card
-     */
     private void unBlockCard(){
         String userIban = JOptionPane.showInputDialog("Enter user IBAN:");
         if (userIban == null || userIban.isEmpty()) {
@@ -269,40 +256,41 @@ public class MoneyCheck extends JFrame {
             e.printStackTrace();
         }
     }
-
-    /**
-     * Delete the user account
-     * @param user
-     */
     private void deleteMyAccount(User user) {
         try {
             User userData = User.getUserDataByEmail(user.getMail());
             if (userData != null) {
-                String userATM = user.getAtm_name();
-                MoneyCheckATM atm = MoneyCheckATM.retrieveAtmFromDatabase(userATM);
+                int confirmResult = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete your account?", "Confirmation", JOptionPane.YES_NO_OPTION);
 
-                if (userATM != null && !userATM.isEmpty()) {
-                    User.removeUser(userData, atm);
-                    users = atm.getUsers();
-                    users.remove(userData);
-                    atm.setUsers(users);
-                    int size = atm.getUsers().size() - 1;
+                if (confirmResult == JOptionPane.YES_OPTION) {
+                    String userATM = user.getAtm_name();
+                    MoneyCheckATM atm = MoneyCheckATM.retrieveAtmFromDatabase(userATM);
 
-                    try {
-                        String url = "jdbc:sqlite:A:/MoneyCheck - ATM Bancar/MoneyCheck-ATM-Bancar/identifier.sqlite";
-                        Connection connection = DriverManager.getConnection(url);
-                        String updateQuery = "UPDATE ATM SET Atm_users = ? WHERE Atm_name = ?";
-                        PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
-                        preparedStatement.setInt(1, size);
-                        preparedStatement.setString(2, userATM);
-                        preparedStatement.executeUpdate();
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
+                    if (userATM != null && !userATM.isEmpty()) {
+                        User.removeUser(userData, atm);
+                        users = atm.getUsers();
+                        users.remove(userData);
+                        atm.setUsers(users);
+                        int size = atm.getUsers().size() - 1;
+
+                        try {
+                            String url = "jdbc:sqlite:A:/MoneyCheck - ATM Bancar/MoneyCheck-ATM-Bancar/identifier.sqlite";
+                            Connection connection = DriverManager.getConnection(url);
+                            String updateQuery = "UPDATE ATM SET Atm_users = ? WHERE Atm_name = ?";
+                            PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
+                            preparedStatement.setInt(1, size);
+                            preparedStatement.setString(2, userATM);
+                            preparedStatement.executeUpdate();
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                        JOptionPane.showMessageDialog(this, "Account deleted successfully!");
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Error at deleting your account");
                     }
-
-                    JOptionPane.showMessageDialog(this, "Account deleted successfully!");
                 } else {
-                    JOptionPane.showMessageDialog(this, "Error at deleting your account");
+                    JOptionPane.showMessageDialog(this, "Account deletion canceled.");
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "User not found!");
@@ -311,11 +299,6 @@ public class MoneyCheck extends JFrame {
             JOptionPane.showMessageDialog(this, "Error deleting your account.");
         }
     }
-
-    /**
-     * Open the user panel after login
-     * @param user
-     */
     private void openUserPanel(User user){
         JPanel userOptionsPanel = new JPanel(new GridLayout(3, 2));
         JButton addBalanceButton = new JButton("Add Balance");
@@ -324,6 +307,7 @@ public class MoneyCheck extends JFrame {
         JButton withdrawMoneyButton = new JButton("Withdraw");
         JButton changePinButton = new JButton("Modify pin code");
         JButton transferButton = new JButton("Transfer money");
+        JButton blockCardButton = new JButton("Block card");
         JButton goToMainPage = new JButton("Back");
         addBalanceButton.addActionListener(new ActionListener() {
             @Override
@@ -427,7 +411,31 @@ public class MoneyCheck extends JFrame {
                 }
             }
         });
-
+        blockCardButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String pin = JOptionPane.showInputDialog("Enter your pin code.");
+                if(pin == null || pin.isEmpty()){
+                    JOptionPane.showMessageDialog(MoneyCheck.this,"Please insert a valid pin.");
+                    return;
+                }
+                try{
+                    if(Integer.parseInt(pin) != user.getPin_code()){
+                        JOptionPane.showMessageDialog(MoneyCheck.this,"Wrong pin code.");
+                        return;
+                    }
+                    if(user.isCard_blocked()){
+                        JOptionPane.showMessageDialog(MoneyCheck.this,"Your card is already blocked.");
+                        return;
+                    }
+                    User.blockCard(user);
+                    JOptionPane.showMessageDialog(MoneyCheck.this,"Your card has been blocked.");
+                }catch (Exception ex){
+                    JOptionPane.showMessageDialog(MoneyCheck.this, "Error at trying to block your card.");
+                }
+                goToMainPage();
+            }
+        });
         goToMainPage.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -441,6 +449,7 @@ public class MoneyCheck extends JFrame {
         userOptionsPanel.add(withdrawMoneyButton);
         userOptionsPanel.add(changePinButton);
         userOptionsPanel.add(transferButton);
+        userOptionsPanel.add(blockCardButton);
         userOptionsPanel.add(goToMainPage);
 
         getContentPane().removeAll();
@@ -448,63 +457,7 @@ public class MoneyCheck extends JFrame {
         revalidate();
         repaint();
     }
-
-    /**
-     * Login panel for the user
-     */
-    private void loginUser() {
-        String userEmail = email.getText();
-        String pinCodeStr = pincode.getText();
-        if (userEmail == null || userEmail.isEmpty() || pinCodeStr == null || pinCodeStr.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Invalid Email or PIN Code. Please enter valid information.");
-            return;
-        }
-        try {
-            int pinCode = Integer.parseInt(pinCodeStr);
-            User user = User.getUserDataByEmail(userEmail);
-
-            if (user != null) {
-                if (!user.isCard_blocked()) {
-                    if (user.getPin_code() == pinCode) {
-                        // Successful login
-                        openUserPanel(user);
-                    } else {
-                        // Invalid PIN code
-                        JOptionPane.showMessageDialog(this, "Invalid PIN Code. Please enter a valid PIN Code.");
-                    }
-                } else {
-                    // Card is blocked
-                    JOptionPane.showMessageDialog(this, "Card is blocked.");
-                }
-            } else {
-                // User not found
-                JOptionPane.showMessageDialog(this, "User not found. Please enter a valid email.");
-            }
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Invalid PIN Code. Please enter a valid number.");
-        }
-    }
-
-    /**
-     * Go to the main page
-     */
-    private void goToMainPage(){
-        JPanel mainPanel = new JPanel(new GridLayout(2, 1));
-        JPanel buttonPanel = new JPanel(new GridLayout(1, 2));
-        buttonPanel.add(adminButton);
-        buttonPanel.add(userButton);
-        mainPanel.add(buttonPanel);
-
-        getContentPane().removeAll();
-        getContentPane().add(mainPanel);
-        revalidate();
-        repaint();
-    }
-
-    /**
-     * Open the admin panel
-     */
-    private void openAdminPanel() {
+    private void openAdminPanel(Admin admin){
         JPanel adminPanel = new JPanel(new GridLayout(1, 1));
         JPanel aditionalPanel = new JPanel(new GridLayout(3, 3));
         JButton goToMainPageButton = new JButton("Back");
@@ -566,15 +519,119 @@ public class MoneyCheck extends JFrame {
 
     }
 
-    /**
-     * Open the user panel
-     */
-    private void openUserPanel() {
+    private void loginUser() {
+        String userEmail = email.getText();
+        String pinCodeStr = pincode.getText();
+        if (userEmail == null || userEmail.isEmpty() || pinCodeStr == null || pinCodeStr.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Invalid Email or PIN Code. Please enter valid information.");
+            return;
+        }
+        try {
+            int pinCode = Integer.parseInt(pinCodeStr);
+            User user = User.getUserDataByEmail(userEmail);
+
+            if (user != null) {
+                if (!user.isCard_blocked()) {
+                    if (user.getPin_code() == pinCode) {
+                        // Successful login
+                        openUserPanel(user);
+                    } else {
+                        // Invalid PIN code
+                        JOptionPane.showMessageDialog(this, "Invalid PIN Code. Please enter a valid PIN Code.");
+                    }
+                } else {
+                    // Card is blocked
+                    JOptionPane.showMessageDialog(this, "Card is blocked.");
+                }
+            } else {
+                // User not found
+                JOptionPane.showMessageDialog(this, "User not found. Please enter a valid email.");
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Invalid PIN Code. Please enter a valid number.");
+        }
+    }
+    private void loginAdmin(){
+        String adminEmail = email.getText();
+        String adminPass = adminPassword.getText();
+
+        if(adminEmail.isEmpty() || adminPass == null || adminPass.isEmpty()){
+            JOptionPane.showMessageDialog(this,"Invalid email or password. Please insert valid information");
+            return;
+        }
+        try{
+            if(!adminPass.equals("admin")){
+                JOptionPane.showMessageDialog(this,"Wrong password.");
+                return;
+            }
+            Admin admin = Admin.getAdminDataByEmail(adminEmail);
+            if(admin != null){
+                openAdminPanel(admin);
+            }
+            else{
+                JOptionPane.showMessageDialog(this,"Admin not found.");
+                return;
+            }
+        }catch (Exception ex){
+            JOptionPane.showMessageDialog(this, "Error at trying to login as an admin.");
+        }
+    }
+    private void goToMainPage(){
+        JPanel mainPanel = new JPanel(new GridLayout(2, 1));
+        JPanel buttonPanel = new JPanel(new GridLayout(1, 2));
+        buttonPanel.add(adminButton);
+        buttonPanel.add(userButton);
+        mainPanel.add(buttonPanel);
+
+        getContentPane().removeAll();
+        getContentPane().add(mainPanel);
+        revalidate();
+        repaint();
+    }
+    private void openAdminLoginPanel() {
+        JPanel adminPanel = new JPanel(new GridLayout(2, 2));
+        JPanel aditionalAdminPanel = new JPanel(new GridLayout(3,2));
+
+        email = new JTextField();
+        adminPassword = new JTextField();
+
+        JButton loginButton = new JButton("Login");
+        loginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loginAdmin();
+            }
+        });
+
+        JButton goToMainPageButton = new JButton("Back");
+        goToMainPageButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                goToMainPage();
+            }
+        });
+
+        aditionalAdminPanel.add(new JLabel("Email:"));
+        aditionalAdminPanel.add(email);
+
+        aditionalAdminPanel.add(new JLabel("Password:"));
+        aditionalAdminPanel.add(adminPassword);
+        aditionalAdminPanel.add(loginButton);
+        aditionalAdminPanel.add(goToMainPageButton);
+        adminPanel.add(aditionalAdminPanel);
+
+
+        getContentPane().removeAll();
+        getContentPane().add(adminPanel);
+        revalidate();
+        repaint();
+    }
+    private void openUserLoginPanel() {
         JPanel userPanel = new JPanel(new GridLayout(2, 2));
         JPanel aditionalPanel = new JPanel(new GridLayout(3,2));
 
-        email = new JTextArea();
-        pincode = new JTextArea();
+        email = new JTextField();
+        pincode = new JTextField();
 
         JButton loginButton = new JButton("Login");
         loginButton.addActionListener(new ActionListener() {

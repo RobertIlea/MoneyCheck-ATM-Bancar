@@ -3,41 +3,95 @@ package ATM;
 import javax.swing.*;
 import java.sql.*;
 
+/**
+ * This class is used to create an admin object
+ */
 public class Admin {
+
+    /**
+     * first name of the admin
+     */
     private String first_name;
+
+    /**
+     * last name of the admin
+     */
     private String last_name;
+    /**
+     * email of the admin
+     */
     private String email;
+
+    /**
+     * Constructor without parameters
+     */
     public Admin(){}
-    public Admin(String first_name, String last_name, String email, FunctionType admin){
-        this.first_name=first_name;
-        this.last_name=last_name;
-        this.email=email;
+
+    /**
+     * Constructor with parameters
+     * @param first_name first name of the admin
+     * @param last_name last name of the admin
+     * @param email email of the admin
+     */
+    public Admin(String first_name, String email,String last_name,FunctionType admin){
+        this.email = email;
+        this.first_name = first_name;
+        this.last_name = last_name;
     }
+
+    /**
+     * This method is used to get the first name of the admin
+     * @return first name of the admin
+     */
     public String getFirst_name(){
         return first_name;
     }
+    /**
+     * This method is used to set the first name of the admin
+     * @param first_name first name of the admin
+     */
     public void setFirst_name(String first_name){
         this.first_name=first_name;
     }
+    /**
+     * This method is used to get the last name of the admin
+     * @return last name of the admin
+     */
     public String getLast_name(){
         return last_name;
     }
+    /**
+     * This method is used to set the last name of the admin
+     * @param last_name last name of the admin
+     */
     public void setLast_name(String last_name){
         this.last_name=last_name;
     }
+    /**
+     * This method is used to get the email of the admin
+     * @return email of the admin
+     */
     public String getEmail(){
         return email;
     }
+    /**
+     * This method is used to set the email of the admin
+     * @param email email of the admin
+     */
     public void setEmail(String email){
         this.email=email;
     }
+    /**
+     * This method is used to get the function type of the admin
+     * @return function type of the admin
+     */
     public FunctionType getFunctionType(){
         return FunctionType.Admin;
     }
 
     /**
      * This method is used to add an admin to the database
-     * @param admin
+     * @param admin admin to be added to the database
      */
     public static void addAdminToDatabase(Admin admin) {
         String url = "jdbc:sqlite:A:/MoneyCheck - ATM Bancar/MoneyCheck-ATM-Bancar/identifier.sqlite";
@@ -57,7 +111,7 @@ public class Admin {
 
     /**
      * This method is used to remove an admin from the database
-     * @param admin
+     * @param admin admin to be removed from the database
      */
     public static void removeAdminFromDatabase(Admin admin){
         String url = "jdbc:sqlite:A:/MoneyCheck - ATM Bancar/MoneyCheck-ATM-Bancar/identifier.sqlite";
@@ -75,14 +129,10 @@ public class Admin {
 
     /**
      * This method is used to add money to an ATM
-     * @param ATM
-     * @param quantity
+     * @param ATM ATM to which the money is added
+     * @param quantity quantity of money to be added
      */
     public static void addMoneyToATM(MoneyCheckATM ATM, double quantity) {
-        if (ATM.getAdmin().getFunctionType() != FunctionType.Admin) {
-            System.out.println("You are not an ADMIN!!!");
-            return;
-        }
         String url = "jdbc:sqlite:A:/MoneyCheck - ATM Bancar/MoneyCheck-ATM-Bancar/identifier.sqlite";
         try (Connection connection = DriverManager.getConnection(url)) {
             // Retrieve the current sold value from the database
@@ -125,12 +175,12 @@ public class Admin {
 
     /**
      * This method is used to get the admin data by email
-     * @param email
-     * @return
+     * @param email email of the admin
+     * @return admin data
      */
     public static Admin getAdminDataByEmail(String email){
         String url = "jdbc:sqlite:A:/MoneyCheck - ATM Bancar/MoneyCheck-ATM-Bancar/identifier.sqlite";
-        Admin admin = new Admin();
+        Admin admin = null;
         try (Connection connection = DriverManager.getConnection(url)) {
             String selectQuery = "SELECT * FROM Admin WHERE Admin_email = ?";
 
@@ -139,9 +189,12 @@ public class Admin {
 
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     if (resultSet.next()) {
-                        admin.setFirst_name(resultSet.getString("Admin_first_name"));
-                        admin.setLast_name(resultSet.getString("Admin_last_name"));
-                        admin.setEmail(resultSet.getString("Admin_email"));
+                        admin = new Admin(
+                                resultSet.getString("Admin_email"),
+                                resultSet.getString("Admin_first_name"),
+                                resultSet.getString("Admin_last_name"),
+                                FunctionType.Admin
+                        );
                     }
                 }
             }
@@ -153,7 +206,7 @@ public class Admin {
 
     /**
      * Override the toString method for the Admin class
-     * @return
+     * @return admin data
      */
     @Override
     public String toString(){

@@ -2,10 +2,13 @@ package ATM;
 
 import java.util.ArrayList;
 
+/**
+ * This class is used to test the ATM application.
+ */
 public class MainATM {
     /**
      * This method is used to block a card
-     * @param user
+     * @param user the user whose card is going to be blocked
      */
     public static void blockCard(User user){
         user.setCard_blocked(String.valueOf(true));
@@ -13,7 +16,7 @@ public class MainATM {
 
     /**
      * This method is used to unblock a card
-     * @param user
+     * @param user the user whose card is going to be unblocked
      */
     public static void unblockCard(User user){
         user.setCard_blocked(String.valueOf(false));
@@ -21,7 +24,7 @@ public class MainATM {
 
     /**
      * This method is used to generate a random IBAN
-     * @return
+     * @return the generated IBAN
      */
     public static String randomIban(){
         String iban = "RO";
@@ -34,7 +37,7 @@ public class MainATM {
 
     /**
      * This method is used to generate a random PIN code
-     * @return
+     * @return the generated PIN code
      */
     public static Integer randomPinCode(){
         int pin_code;
@@ -44,9 +47,9 @@ public class MainATM {
 
     /**
      * This method is used to generate an email
-     * @param first_name
-     * @param last_name
-     * @return
+     * @param first_name first name of the user
+     * @param last_name last name of the user
+     * @return the generated email
      */
     public static String generateEmail(String first_name, String last_name){
         first_name = first_name.toLowerCase();
@@ -57,9 +60,9 @@ public class MainATM {
 
     /**
      * This method is used to generate an admin email
-     * @param first_name
-     * @param last_name
-     * @return
+     * @param first_name first name of the admin
+     * @param last_name last name of the admin
+     * @return the generated admin email
      */
     public static String generateAdminEmail(String first_name, String last_name){
         first_name = first_name.toLowerCase();

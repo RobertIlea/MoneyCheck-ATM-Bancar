@@ -5,12 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ebf72962-af7d-4470-9528-7becbea80bbb" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/ATM/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/ATM/Admin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ATM/MoneyCheck.java" beforeDir="false" afterPath="$PROJECT_DIR$/ATM/MoneyCheck.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ATM/MoneyCheckATM.java" beforeDir="false" afterPath="$PROJECT_DIR$/ATM/MoneyCheckATM.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ATM/Tests.java" beforeDir="false" afterPath="$PROJECT_DIR$/ATM/Tests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ATM/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/ATM/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/identifier.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/identifier.sqlite" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/MoneyCheck-ATM-Bancar/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MoneyCheck-ATM-Bancar/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/MoneyCheck-ATM-Bancar/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MoneyCheck-ATM-Bancar/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/MoneyCheck-ATM-Bancar/identifier.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MoneyCheck-ATM-Bancar/identifier.sqlite" afterDir="false" />
     </list>
@@ -53,6 +50,7 @@
     &quot;Application.main.executor&quot;: &quot;Run&quot;,
     &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
     &quot;JUnit.Tests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.Tests.testAddMoneyToATM.executor&quot;: &quot;Debug&quot;,
     &quot;JUnit.Tests.testWithdrawBalance.executor&quot;: &quot;Debug&quot;,
     &quot;Notification.DisplayName-DoNotAsk-Vcs Important Messages&quot;: &quot;VCS important messages&quot;,
     &quot;Notification.DoNotAsk-Vcs Important Messages&quot;: &quot;true&quot;,
@@ -82,7 +80,7 @@
     ]
   }
 }</component>
-  <component name="RunManager" selected="JUnit.Tests">
+  <component name="RunManager" selected="Application.MoneyCheck">
     <configuration name="MainATM" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="ATM.MainATM" />
       <module name="MoneyCheck-ATM-Bancar" />
@@ -126,8 +124,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.Tests" />
         <item itemvalue="Application.MoneyCheck" />
+        <item itemvalue="JUnit.Tests" />
         <item itemvalue="Application.MainATM" />
       </list>
     </recent_temporary>
@@ -164,6 +162,13 @@
       <workItem from="1704793343563" duration="8852000" />
       <workItem from="1704823695564" duration="4635000" />
       <workItem from="1704900855929" duration="245000" />
+      <workItem from="1704904944283" duration="2551000" />
+      <workItem from="1704907658408" duration="277000" />
+      <workItem from="1704907944371" duration="329000" />
+      <workItem from="1704959274590" duration="2749000" />
+      <workItem from="1705162412212" duration="211000" />
+      <workItem from="1705409930868" duration="18000" />
+      <workItem from="1705788825152" duration="20000" />
     </task>
     <servers />
   </component>

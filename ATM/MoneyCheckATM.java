@@ -3,52 +3,119 @@ package ATM;
 import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ * This class is used to create an ATM.
+ */
 public class MoneyCheckATM {
+
+    /**
+     * atm_name is the name of the ATM
+     */
     private String atm_name;
+    /**
+     * amount_of_money is the amount of money that the ATM has
+     */
     private double amount_of_money;
+
+    /**
+     * users is an array list of users that the ATM has
+     */
     private ArrayList<User> users;
+
+    /**
+     * admin is the admin of the ATM
+     */
     private Admin admin;
+
+    /**
+     * Constructor without parameters
+     */
     public MoneyCheckATM(){
         this.atm_name=null;
         this.amount_of_money=0.0;
         this.users=null;
         this.admin=null;
     }
-
+    /**
+     * Constructor with parameters
+     * @param atmName name of the ATM
+     * @param amount_of_money amount of money that the ATM has
+     * @param users array list of users that the ATM has
+     * @param admin admin of the ATM
+     */
     public MoneyCheckATM(String atmName, double amount_of_money, ArrayList<User> users, Admin admin){
         this.atm_name = atmName;
         this.amount_of_money=amount_of_money;
         this.users=users;
         this.admin=admin;
     }
+    /**
+     * This method is used to get the name of the ATM
+     * @return name of the ATM
+     */
     public String getAtm_name(){
         return atm_name;
     }
+
+    /**
+     * This method is used to set the name of the ATM
+     * @param atm_name name of the ATM
+     */
     public void setAtm_name(String atm_name){
         this.atm_name=atm_name;
     }
+
+    /**
+     * This method is used to get the amount of money that the ATM has
+     * @return amount of money that the ATM has
+     */
     public double getAmount_of_money(){
         return amount_of_money;
     }
+
+    /**
+     * This method is used to get the users that the ATM has
+     * @return users that the ATM has
+     */
     public ArrayList<User> getUsers(){
         return users;
     }
+
+    /**
+     * This method is used to get the admin of the ATM
+     * @return admin of the ATM
+     */
     public Admin getAdmin(){
         return admin;
     }
+
+    /**
+     * This method is used to set the users that the ATM has
+     * @param users amount of money that the ATM has
+     */
     public void setUsers(ArrayList<User> users){
         this.users=users;
     }
+
+    /**
+     * This method is used to set the admin of the ATM
+     * @param admin admin of the ATM
+     */
     public void setAdmin(Admin admin){
         this.admin=admin;
     }
+
+    /**
+     * This method is used to set the amount of money that the ATM has
+     * @param sum amount of money that the ATM has
+     */
     public void setAmount_of_money(double sum) {
         this.amount_of_money = sum;
     }
 
     /**
      * This method is used to retrieve an ATM from database
-     * @param name
+     * @param name name of the ATM
      */
     public static MoneyCheckATM retrieveAtmFromDatabase(String name) {
         String url = "jdbc:sqlite:A:/MoneyCheck - ATM Bancar/MoneyCheck-ATM-Bancar/identifier.sqlite";
@@ -111,7 +178,7 @@ public class MoneyCheckATM {
 
     /**
      * This method is used to add an ATM to database
-     * @param ATM
+     * @param ATM the ATM that is going to be added
      */
     public static void addAtmToDatabase(MoneyCheckATM ATM){
         String url = "jdbc:sqlite:A:/MoneyCheck - ATM Bancar/MoneyCheck-ATM-Bancar/identifier.sqlite";
@@ -133,7 +200,7 @@ public class MoneyCheckATM {
 
     /**
      * This method is used to remove an ATM from database
-     * @param ATM
+     * @param ATM the ATM that is going to be removed
      */
     public static void removeAtmFromDatabase(MoneyCheckATM ATM){
         String url = "jdbc:sqlite:A:/MoneyCheck - ATM Bancar/MoneyCheck-ATM-Bancar/identifier.sqlite";
@@ -151,8 +218,8 @@ public class MoneyCheckATM {
 
     /**
      * Check if the atm exists.
-     * @param atmName
-     * @return
+     * @param atmName the name of the atm
+     * @return true if the atm exists, false otherwise
      */
     public static boolean atmExists(String atmName) {
         String url = "jdbc:sqlite:A:/MoneyCheck - ATM Bancar/MoneyCheck-ATM-Bancar/identifier.sqlite";
@@ -177,7 +244,7 @@ public class MoneyCheckATM {
 
     /**
      * Override toString method for the ATM class
-     * @return
+     * @return the ATM as a string
      */
     @Override
     public String toString(){
